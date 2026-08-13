@@ -57,7 +57,17 @@ Paragraph with **bold**, [link](https://example.com), `inline code`.
 | Area | Status |
 | --- | --- |
 | Intro | Draft |
+
+```go
+type Point struct {
+	X int
+	Y int
+}
 ```
+```
+
+The language-tagged fence exercises rich-text syntax highlighting; an untagged
+fence should render as plain, uncolored text.
 ### Review Document
 ```markdown
 # Review document {==Select this sentence==}{>>Root comment<<}{#root} This sentence includes {++clearer wording++}{#s1}. Replace {~~old phrase~>new phrase~~}{#s2} and remove {--dead text--}{#s3}.
@@ -111,6 +121,7 @@ suggestions:
 | RFM guide | Spec review example | Click `rfm-format-example-spec-review` | `rfm-format-example-spec-review` | Confirms comments/suggestions render in the embedded demo. |
 | RFM guide | Writing edit example | Click `rfm-format-example-writing-edit` | `rfm-format-example-writing-edit` | Useful for prose-focused review states. |
 | Preview | Rich text default | `/preview?editor=rich-text` | `page-card-rich-text`, `rich-text-editor` | Uses in-memory preview backend and includes a sample anchored comment. |
+| Document | Rich-text code highlighting | Open a doc containing language-tagged fences (```go, ```ts) in rich text | `rich-text-editor`, `pre code` | Tagged fences render colored highlight.js tokens (light/dark aware); untagged fences stay plain. |
 | Preview | Code editor default | `/preview?editor=code` | `page-card-code`, `markdown-code-editor` | Capture line wrapping, code editor chrome, and rail behavior. |
 | Document | Rich/code toggle | Use `document-editor-view-toggle` | `document-editor-view-toggle` | URL changes to `?editor=code` or `?editor=rich-text`. |
 | Document | Editing mode | Open mode menu and choose Editing | `document-mode-trigger` | Normal edit behavior. |

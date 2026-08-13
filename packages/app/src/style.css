@@ -381,6 +381,87 @@
     @apply bg-transparent p-0 text-inherit;
   }
 
+  /*
+   * highlight.js token colors for fenced code blocks, driven by lowlight
+   * (see editor-extensions.ts). Colors resolve through the --code-hl-* tokens
+   * so the GitHub-style palette adapts to light and dark themes. Grouping
+   * mirrors highlight.js's own github theme.
+   */
+  .tiptap pre code .hljs-doctag,
+  .tiptap pre code .hljs-keyword,
+  .tiptap pre code .hljs-meta .hljs-keyword,
+  .tiptap pre code .hljs-template-tag,
+  .tiptap pre code .hljs-template-variable,
+  .tiptap pre code .hljs-type,
+  .tiptap pre code .hljs-variable.language_ {
+    color: var(--code-hl-keyword);
+  }
+
+  .tiptap pre code .hljs-title,
+  .tiptap pre code .hljs-title.class_,
+  .tiptap pre code .hljs-title.class_.inherited__,
+  .tiptap pre code .hljs-title.function_ {
+    color: var(--code-hl-entity);
+  }
+
+  .tiptap pre code .hljs-attr,
+  .tiptap pre code .hljs-attribute,
+  .tiptap pre code .hljs-literal,
+  .tiptap pre code .hljs-meta,
+  .tiptap pre code .hljs-number,
+  .tiptap pre code .hljs-operator,
+  .tiptap pre code .hljs-variable,
+  .tiptap pre code .hljs-selector-attr,
+  .tiptap pre code .hljs-selector-class,
+  .tiptap pre code .hljs-selector-id {
+    color: var(--code-hl-constant);
+  }
+
+  .tiptap pre code .hljs-regexp,
+  .tiptap pre code .hljs-string,
+  .tiptap pre code .hljs-meta .hljs-string {
+    color: var(--code-hl-string);
+  }
+
+  .tiptap pre code .hljs-built_in,
+  .tiptap pre code .hljs-symbol {
+    color: var(--code-hl-builtin);
+  }
+
+  .tiptap pre code .hljs-comment,
+  .tiptap pre code .hljs-code,
+  .tiptap pre code .hljs-formula {
+    color: var(--code-hl-comment);
+  }
+
+  .tiptap pre code .hljs-name,
+  .tiptap pre code .hljs-quote,
+  .tiptap pre code .hljs-selector-tag,
+  .tiptap pre code .hljs-selector-pseudo {
+    color: var(--code-hl-name);
+  }
+
+  .tiptap pre code .hljs-subst {
+    color: var(--code-block-foreground);
+  }
+
+  .tiptap pre code .hljs-section {
+    color: var(--code-hl-section);
+    font-weight: bold;
+  }
+
+  .tiptap pre code .hljs-bullet {
+    color: var(--code-hl-bullet);
+  }
+
+  .tiptap pre code .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .tiptap pre code .hljs-strong {
+    font-weight: bold;
+  }
+
   .tiptap blockquote {
     @apply border-l-4 border-slate-300 dark:border-slate-600 pl-4 text-slate-600 dark:text-slate-400;
     margin: 1.3em 0;
@@ -719,6 +800,15 @@
   --code-block-background: oklch(0.985 0.002 84.7);
   --code-block-border: oklch(0.92 0.005 84.2);
   --code-block-foreground: oklch(0.141 0.006 67.1);
+  --code-hl-keyword: #d73a49;
+  --code-hl-entity: #6f42c1;
+  --code-hl-constant: #005cc5;
+  --code-hl-string: #032f62;
+  --code-hl-builtin: #e36209;
+  --code-hl-comment: #6a737d;
+  --code-hl-name: #22863a;
+  --code-hl-section: #005cc5;
+  --code-hl-bullet: #735c0f;
 }
 
 .dark {
@@ -756,6 +846,15 @@
   --code-block-background: oklch(0.141 0.006 67.1);
   --code-block-border: oklch(1 0 0 / 10%);
   --code-block-foreground: oklch(0.985 0 0);
+  --code-hl-keyword: #ff7b72;
+  --code-hl-entity: #d2a8ff;
+  --code-hl-constant: #79c0ff;
+  --code-hl-string: #a5d6ff;
+  --code-hl-builtin: #ffa657;
+  --code-hl-comment: #8b949e;
+  --code-hl-name: #7ee787;
+  --code-hl-section: #1f6feb;
+  --code-hl-bullet: #f2cc60;
 }
 
 @keyframes document-save-status-saved-fade {
