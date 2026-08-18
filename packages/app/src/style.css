@@ -382,6 +382,19 @@
   }
 
   /*
+   * The inline-code rule (.tiptap code) sets a dark:bg / dark:text via the
+   * `dark` custom variant, whose compiled selector (.tiptap code:is(.dark *))
+   * outranks the plain `.tiptap pre code` reset above in dark mode. Left alone
+   * it bleeds an inline-code background box behind every line of a fenced code
+   * block. Reassert the reset with matching specificity so fenced code keeps
+   * the surrounding <pre> background and foreground in dark mode.
+   */
+  .dark .tiptap pre code {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  /*
    * highlight.js token colors for fenced code blocks, driven by lowlight
    * (see editor-extensions.ts). Colors resolve through the --code-hl-* tokens
    * so the GitHub-style palette adapts to light and dark themes. Grouping
