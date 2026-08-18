@@ -1,6 +1,6 @@
 import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
 import Code from "@tiptap/extension-code";
-import CodeBlock from "@tiptap/extension-code-block";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -17,6 +17,7 @@ import type {
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import StarterKit from "@tiptap/starter-kit";
+import { common, createLowlight } from "lowlight";
 import { rawMarkdownBlockAttribute } from "./markdown";
 
 declare module "@tiptap/core" {
@@ -713,8 +714,37 @@ const MarkdownCode = Code.extend({
   excludes: "bold italic strike link",
 });
 
-const MarkdownCodeBlock = CodeBlock.extend({
+// Syntax-highlight fenced code blocks by their language via lowlight
+// (highlight.js). The `common` grammar set covers ~40 popular languages
+// (go, typescript, javascript, python, rust, json, bash, sql, …). Sharing a
+// single instance keeps every editor built from these extensions consistent.
+const lowlight = createLowlight(common);
+
+const MarkdownCodeBlock = CodeBlockLowlight.extend({
   marks: "commentRef criticChange",
+
+  addAttributes() {
+    const attributes = (this.parent?.() ?? {}) as Record<
+      string,
+      Record<string, unknown>
+    >;
+
+    return {
+      ...attributes,
+      // Base CodeBlock ties the `language` attribute's default to
+      // `defaultLanguage`. We pass `defaultLanguage: "plaintext"` to the
+      // lowlight plugin so untagged fences render un-highlighted instead of
+      // being auto-detected, but that fallback must NOT become the stored
+      // language: an untagged ``` block has to round-trip back to a bare ```
+      // fence, not ```plaintext. Forcing the attribute default to null keeps
+      // the stored language empty while the plugin still uses the plaintext
+      // fallback at render time.
+      language: {
+        ...attributes.language,
+        default: null,
+      },
+    };
+  },
 });
 
 const MarkdownImage = Image.extend({
@@ -799,7 +829,10 @@ export function createEditorExtensions(placeholder: string) {
     CommentRef,
     CriticChange,
     RawMarkdownBlock,
-    MarkdownCodeBlock,
+    // `defaultLanguage: "plaintext"` means unlabeled fences stay plain: only
+    // blocks that name a language get highlighted, matching how the fence
+    // language is authored (```go, ```ts, …).
+    MarkdownCodeBlock.configure({ lowlight, defaultLanguage: "plaintext" }),
     CommentHighlight,
     CriticChangeHighlight,
     MarkdownImage.configure({
